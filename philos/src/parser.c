@@ -14,10 +14,10 @@ static int	ft_strlen_nb(char *str)
 	return (len);
 }
 
-static int	ft_atoi(const char *str)
+static long	ft_atol(const char *str)
 {
-	int		sign;
-	int		nb;
+	long		sign;
+	long		nb;
 
 	sign = 1;
 	nb = 0;
