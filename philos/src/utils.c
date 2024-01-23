@@ -12,7 +12,7 @@
 
 #include "../headers/philosophers.h"
 
-void	ft_putstr_fd(char *s, int fd)
+static void	ft_putstr_fd(char *s, int fd)
 {
 	char	*first;
 
