@@ -8,7 +8,7 @@
 # include "philosopher.h"
 
 /* CONSTANTS */
-# define ERROR_INVALID_ARGUMENTS "Error\n Invalid Arguments\n"
+# define MESSAGE_ERROR_INVALID_ARGUMENTS "Error\n Invalid Arguments!\n"
 # define MESSAGE_TAKEN_A_FORK "milisegundos (ms) has taken a fork\n"
 # define MESSAGE_IS_EATING "milisegundos (ms) is eating\n"
 # define MESSAGE_IS_SLEEPING "milisegundos (ms) is sleeping\n"
