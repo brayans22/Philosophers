@@ -98,6 +98,6 @@ int is_valid_arguments(char **arguments)
 		*/
 	}
 	if (!is_v)
-		write(2, "Error\n", 6);
+		ft_putendl_fd("Error\n Invalid Arguments!\n", 2);
     return (1);
 }
