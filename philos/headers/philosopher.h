@@ -9,11 +9,11 @@
 
 /* CONSTANTS */
 # define ERROR_INVALID_ARGUMENTS "Error\n Invalid Arguments\n"
-# define MESSAGE_TAKEN_A_FORK "has taken a fork\n"
-# define MESSAGE_IS_EATING "is eating\n"
-# define MESSAGE_IS_SLEEPING "is sleeping\n"
-# define MESSAGE_IS_THINKING "is thinking\n"
-# define MESSAGE_IS_DIED "is died\n"
+# define MESSAGE_TAKEN_A_FORK "milisegundos (ms) has taken a fork\n"
+# define MESSAGE_IS_EATING "milisegundos (ms) is eating\n"
+# define MESSAGE_IS_SLEEPING "milisegundos (ms) is sleeping\n"
+# define MESSAGE_IS_THINKING "milisegundos (ms) is thinking\n"
+# define MESSAGE_IS_DIED "milisegundos (ms) is died\n"
   
 int   ft_strlen_nb(char *str);
 int		ft_atoi(const char *str);
