@@ -15,8 +15,6 @@
 # define MESSAGE_IS_THINKING "milisegundos (ms) is thinking\n"
 # define MESSAGE_IS_DIED "milisegundos (ms) is died\n"
   
-int   ft_strlen_nb(char *str);
-int		ft_atoi(const char *str);
-void	ft_putstr_fd(char *s, int fd);
+int	  ft_strlen(const char *s1);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd); 
