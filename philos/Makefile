@@ -2,14 +2,14 @@ NAME 		= 	philo
 
 PHILO 	= 	src/parser.c src/philosopher.c src/utils.c
 
-HEADERS 	= 	headers/philosopher.h 
+HEADERS 	= 	headers/
 
 SRCS 		= ${PHILO}
 
 OBJS 		= ${SRCS:.c=.o}
 
 CC 			= gcc
-CFLAGS 		= -Wall -Werror -Wextra -g -fsanitaize=thread
+CFLAGS 		= -Wall -Werror -Wextra -g -fsanitize=thread
 
 %.o:%.c 	Makefile headers/philosopher.h
 			${CC} ${CFLAGS} -I ${HEADERS} -c $< -o $@

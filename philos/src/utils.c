@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/philosophers.h"
+#include "../headers/philosopher.h"
 
 static void	ft_putstr_fd(char *s, int fd)
 {
@@ -44,11 +44,7 @@ void	ft_putendl_fd(char *s, int fd)
 	first = s;
 	if (fd == -1)
 		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
+	ft_putstr_fd(s, fd);
 	write(fd, "\n", 1);
 	s = first;
 }
