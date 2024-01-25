@@ -12,6 +12,10 @@
 
 #include "../headers/philosopher.h"
 
+/*
+* PRE: -
+* POST: Muestra un string s en la terminal.
+*/
 static void	ft_putstr_fd(char *s, int fd)
 {
 	char	*first;
@@ -27,6 +31,10 @@ static void	ft_putstr_fd(char *s, int fd)
 	s = first;
 }
 
+/*
+* PRE: No puede ser nulo s1
+* POST: Devuelve la longitud del string
+*/
 int	ft_strlen(const char *s1)
 {
 	int	i;
@@ -37,6 +45,10 @@ int	ft_strlen(const char *s1)
 	return (i);
 }
 
+/*
+* PRE: -
+* POST: Muestra un string s en la terminal seguido de un salto de linea '\n'
+*/
 void	ft_putendl_fd(char *s, int fd)
 {
 	char	*first;
@@ -49,6 +61,10 @@ void	ft_putendl_fd(char *s, int fd)
 	s = first;
 }
 
+/*
+* PRE: -
+* POST: Muestra un numero en la terminal.
+*/
 void	ft_putnbr_fd(int nb, int fd)
 {
 	int	n;

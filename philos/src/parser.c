@@ -1,6 +1,10 @@
 #include "../headers/philosopher.h"
 #include "../headers/philosopher.h"
 
+/*
+* PRE: -
+* POST: Convierte un array str to integer.
+*/
 static long	ft_atol(const char *str)
 {
 	long	sign;
@@ -25,11 +29,18 @@ static long	ft_atol(const char *str)
 	return (nb * sign);
 }
 
+/*
+* PRE: -
+* POST: Devuelve la longitud del numero ignorando los 0 a la izquierda
+*       Si el parametro es nulo, la longitud del numero se considera 0
+*/
 static int	ft_strlen_nb(char *str)
 {
 	int	len;
 	int	start;
 
+	if (!str)
+		return (0);
 	len = 0;
 	start = 0;
 	while (str[start] == '0' && str[start])
@@ -40,7 +51,7 @@ static int	ft_strlen_nb(char *str)
 }
 
 /*
-* PRE: El flga debe ser un valor entre 1 o 0
+* PRE: El flag_ms_limit debe ser un valor entre 1 o 0
 * POST: Valida el numero, chequeando las siguientes condiciones:
 *       -> > 0 (Positivo)
 *       -> sea un numero
@@ -64,7 +75,9 @@ static int is_valid_argument(char *nb, int flag_ms_limit)
 	if (tmp < MIN_INT || tmp > MAX_INT || (ft_strlen_nb(nb) > 10 && nb[0] != '-') \
 			|| (ft_strlen_nb(nb) > 11 && nb[0] == '-'))
 		return (ft_putendl_fd(MESSAGE_ERROR_OUT_OF_INT_LIMIT, 2), FALSE);
-	if (tmp < 6e4 && flag_ms_limit)
+	// multiplicar por 1e3 numero para tener el tiempo en ms.
+	// 6e4: 60 milisegundos
+	if (tmp * 1e3 < 6e4 && flag_ms_limit)
 		return (ft_putendl_fd(MESSAGE_ERROR_MILISECONDS, 2), FALSE);
 	return (TRUE);
 }
