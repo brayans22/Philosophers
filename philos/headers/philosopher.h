@@ -14,7 +14,12 @@
 # define MESSAGE_IS_SLEEPING "milisegundos (ms) is sleeping\n"
 # define MESSAGE_IS_THINKING "milisegundos (ms) is thinking\n"
 # define MESSAGE_IS_DIED "milisegundos (ms) is died\n"
-  
+# define ERROR -1
+
+
+/* STRUCTS */
+
+/* PROTOYPES */
 int	  ft_strlen(const char *s1);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd); 

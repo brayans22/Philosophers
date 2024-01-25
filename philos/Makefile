@@ -1,17 +1,17 @@
 NAME 		= 	philo
 
-PUSH_SWAP 	= 	src/
+PHILO 	= 	src/parser.c src/philosopher.c src/utils.c
 
-HEADERS 	= 	headers/push_swap.h 
+HEADERS 	= 	headers/philosopher.h 
 
-SRCS 		= ${PUSH_SWAP}
+SRCS 		= ${PHILO}
 
 OBJS 		= ${SRCS:.c=.o}
 
 CC 			= gcc
-CFLAGS 		= -Wall -Werror -Wextra -g
+CFLAGS 		= -Wall -Werror -Wextra -g -fsanitaize=thread
 
-%.o:%.c 	Makefile headers/push_swap.h
+%.o:%.c 	Makefile headers/philosopher.h
 			${CC} ${CFLAGS} -I ${HEADERS} -c $< -o $@
 
 ${NAME}: 	${OBJS}
