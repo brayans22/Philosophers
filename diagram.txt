@@ -1,0 +1,102 @@
+@startuml
+
+note "IMPORTANT CONCEPTS\n___\n1) MUTEX\n2) RACE CONDITION \n3) LOCK (Cerrojo)\n4) CONCURRENCIA\n5) PARALELISMO\n6) RECURSOS COMPARTIDOS \n7) THREAD (Hilo)\n8) PROCESO (PID)" as r
+
+struct T_Program
+{
+    
+    +total_philos : long
+    +time_to_die : long
+    +time_to_eat : long
+    +time_to_sleep : long
+    +limits_meals : long
+    +time_start : long
+    +is_end : long
+}
+
+struct T_Fork
+{
+    + fork_thread : pthread_mutex_t
+    + id : int
+}
+
+struct T_Philo
+{
+    + id : int
+    + counter_meals : long
+    + last_meal_time : long
+    + is_full : long
+    + thread_id : pthread_t
+    + left_fork : T_Fork
+    + right_fork : T_Fork
+}
+
+T_Program "         1  " <|-- "   1..* " T_Philo
+T_Program " 1   " <|---" 1..*   " T_Fork
+
+note right of T_Program::total_philos
+total de philos y tenedores que hay en el programa (MESA)
+end note
+
+note right of T_Program::time_to_die
+tiempo de la muerte del philo (por no comer a tiempo)
+end note
+
+note right of T_Program::time_to_eat
+tiempo que tiene para comer
+end note
+
+note right of T_Program::time_to_sleep
+tiempo que tiene para dormir
+end note
+
+note right of T_Program::limits_meals
+limite de cantidad de comidas que tienen todos los philos
+end note
+
+note right of T_Program::time_start
+tiempo que inicio el programa (comenzaron a comer los philos)
+end note
+
+note right of T_Program::is_end
+tiempo en que se acabo la cena (murio 1 philo o todos estan llenos)
+end note
+
+note right of T_Philo::id
+id asociado al philo
+end note
+
+note right of T_Philo::counter_meals
+cantidad de veces que comio
+end note
+
+note right of T_Philo::last_meal_time
+el tiempo que comio por ultima vez
+end note
+
+note right of T_Philo::is_full
+comera otra vez o ya esta lleno
+end note
+
+note right of T_Philo::thread_id
+id asociado al proceso (hilo)
+end note
+
+note right of T_Philo::left_fork
+tenedor izquierdo
+end note
+
+note right of T_Philo::right_fork
+tenedor derecho
+end note
+
+note left of T_Fork::id
+id para relacionar a los philos que pueden acceder a ese tenedor
+end note
+
+note right of T_Fork::fork_thread
+se utiliza para manejar la sincronización y la exclusión mutua al acceder a recursos compartidos,
+de esta forma evitamos el race condition (2 philos no accedan al mismo tenedor | recurso) [Mutual Exclusion]
+end note
+
+@enduml
