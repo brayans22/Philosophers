@@ -23,9 +23,8 @@ static int is_valid_init_forks(t_fork *forks, long total_philos)
         return (FALSE);
     while (++i < total_philos)
     {
-        // Proger si falla mutex (EINVAL) | cambiar esto de error
-        if (set_mutex_status(&(forks[i].fork_thread_mtx), INIT_MTX) == ERROR)
-            return (ft_putendl_fd(MESSAGE_ERROR_MUTEX_INIT, 2), FALSE);
+        if (set_mutex_status(&(forks[i].fork_thread_mtx), INIT_MTX) != OK)
+            return (FALSE);
         forks[i].id = i;
     }
     return (TRUE);

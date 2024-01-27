@@ -27,7 +27,7 @@ static int	ft_strlen_nb(char *str)
 * POST: Valida el numero, chequeando las siguientes condiciones:
 *       -> > 0 (Positivo)
 *       -> sea un numero
-*       -> Este en el rango de los integers
+*       -> Este en el rango de los integers [INT MAX - INT MIX]
 *       -> Y que sea > 60 ms el timestamp
 */
 static int is_valid_argument(char *nb, int flag_ms_limit)

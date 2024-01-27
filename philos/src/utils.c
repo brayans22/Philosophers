@@ -92,7 +92,6 @@ void	ft_putnbr_fd(int nb, int fd)
 	}
 }
 
-
 /*
 * PRE: -
 * POST: Convierte un array str to integer.
