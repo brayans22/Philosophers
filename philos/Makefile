@@ -1,10 +1,10 @@
 NAME 		= 	philo
 
-PHILO 	= 	src/parser.c 		\
-			src/philosopher.c   \
-			src/init.c			\
-			src/utils.c 		\
-			src/protect.c 		
+PHILO 		= 	src/parser.c 		\
+				src/philosopher.c   \
+				src/init.c			\
+				src/utils.c 		\
+				src/protect.c 		
 			
 HEADERS 	= 	headers/
 

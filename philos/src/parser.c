@@ -3,6 +3,34 @@
 
 /*
 * PRE: -
+* POST: Convierte un array str to integer.
+*/
+static long	ft_atol(const char *str)
+{
+	long	sign;
+	long	nb;
+
+	sign = 1;
+	nb = 0;
+	while (*str == '\t' || *str == '\v' || *str == '\f' || \
+		*str == '\n' || *str == ' ' || *str == '\r')
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = -sign;
+		str++;
+	}
+	while (*str >= MIN_DIGIT_CHAR && *str <= MAX_DIGIT_CHAR)
+	{
+		nb = nb * 10 + *str - '0';
+		str++;
+	}
+	return (nb * sign);
+}
+
+/*
+* PRE: -
 * POST: Devuelve la longitud del numero ignorando los 0 a la izquierda
 *       Si el parametro es nulo, la longitud del numero se considera 0
 */
@@ -56,28 +84,36 @@ static int is_valid_argument(char *nb, int flag_ms_limit)
 
 /*
 * PRE: -
-* POST: Parsea los argumentos y devuelve el status
+* POST: Parsea los argumentos, agregandolos en el programa y devuelve el status de la operacion
 *       OK: Si todo salio en orden
 *       ERROR: Si hubo algun error en el proceso
 */
-int	parser_arguments(char **arguments)
+static int wrapper_parser_arguments_to_program(char **arguments, t_program *program)
 {
-    int i;
+	if (!is_valid_argument(arguments[1], 0) || !is_valid_argument(arguments[2], 1) \
+	    || !is_valid_argument(arguments[3], 1) || !is_valid_argument(arguments[4], 1) \
+		|| (arguments[5] && !is_valid_argument(arguments[5], 1)))
+		return (ERROR);
+	program->total_philos = ft_atol(arguments[1]);
+    program->time_to_die = ft_atol(arguments[2]) * 1e3;
+    program->time_to_eat = ft_atol(arguments[3]) * 1e3;
+    program->time_to_sleep = ft_atol(arguments[4]) * 1e3;
+    if (arguments[5])
+        program->limits_meals = ft_atol(arguments[5]) * 1e3;
+	else
+		program->limits_meals = EMPTY;
+	return (OK);
+}
 
+/*
+* PRE: -
+* POST: Parsea los argumentos, agregandolos en el programa y devuelve el status de la operacion
+*       OK: Si todo salio en orden
+*       ERROR: Si hubo algun error en el proceso
+*/
+int	parser_arguments_to_program(t_program *program, char **arguments)
+{
     if (!*arguments || !arguments)
 		return (ERROR);
-	if (!is_valid_argument(arguments[1], 0))
-			return (ERROR);
-    i = 1;
-	while (arguments[++i])
-	{
-		if (!is_valid_argument(arguments[i], 1))
-			return (ERROR);
-	}
-	if (arguments[5])
-	{
-		if (!is_valid_argument(arguments[5], 1))
-			return (ERROR);
-	}
-    return (OK);
+	return (wrapper_parser_arguments_to_program(arguments, program));
 }

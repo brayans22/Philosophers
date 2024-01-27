@@ -30,17 +30,10 @@ static int is_valid_init_forks(t_fork *forks, long total_philos)
     return (TRUE);
 }
 
-static int is_valid_init_program(t_program *program, char **arguments)
+static int is_valid_init_program(t_program *program)
 {
     program->time_start = 0;
-    program->limits_meals = 0;
     program->is_end = FALSE;
-    program->total_philos = ft_atol(arguments[1]); 
-    program->time_to_die = ft_atol(arguments[2]);
-    program->time_to_eat = ft_atol(arguments[3]);
-    program->time_to_sleep = ft_atol(arguments[4]);
-    if (arguments[5])
-        program->limits_meals = ft_atol(arguments[5]);
     if (!is_valid_init_forks(program->forks, program->total_philos))
         return (FALSE);
     //if (!is_valid_init_philos(program->total_philo))
@@ -48,9 +41,9 @@ static int is_valid_init_program(t_program *program, char **arguments)
     return (TRUE);
 }
 
-int init_program(t_program *program, char **arguments)
+int init_program(t_program *program)
 {
-    if (!is_valid_init_program(program, arguments))
+    if (!is_valid_init_program(program))
         return (ERROR);
     return (OK);
 } 

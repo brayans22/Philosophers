@@ -48,6 +48,7 @@ number_of_philosophers time_to_die time_to_eat time_to_sleep \
 Example: ./philo 5 600 500 400 [5]\n"
 
 # define ERROR          -1
+# define EMPTY          -2
 # define OK             2
 # define TRUE           1
 # define FALSE          0
@@ -95,13 +96,12 @@ struct s_program
 };
 
 /* PROTOYPES */
-int	    parser_arguments(char **arguments);
+int	    parser_arguments_to_program(t_program *program, char **arguments);
+int     init_program(t_program *program);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd);
 void    *get_malloc_memory(size_t bytes_alloc);
 int     set_mutex_status(pthread_mutex_t *mutex, int mode);
 int     get_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data));
-int     init_program(t_program *program, char **arguments);
-long	ft_atol(const char *str);
 
 #endif 
