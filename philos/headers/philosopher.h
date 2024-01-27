@@ -48,6 +48,7 @@ number_of_philosophers time_to_die time_to_eat time_to_sleep \
 Example: ./philo 5 600 500 400 [5]\n"
 
 # define ERROR          -1
+# define NOT_EAT_YET   -9
 # define EMPTY          -2
 # define OK             2
 # define TRUE           1
@@ -61,7 +62,6 @@ Example: ./philo 5 600 500 400 [5]\n"
 # define DETACH_THREAD  -1
 
 /* STRUCTS */
-
 typedef struct s_program t_program;
 
 typedef struct s_fork
@@ -73,13 +73,12 @@ typedef struct s_fork
 typedef struct s_philo
 {
     int     id;
+    int     is_full;
     long    counter_meals;
     long    last_meal_time;
-    int     is_full;
     pthread_t thread_id;
     t_fork *left_fork;
     t_fork *right_fork;
-    t_program *program;
 } t_philo;
 
 struct s_program
@@ -102,6 +101,8 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int nb, int fd);
 void    *get_malloc_memory(size_t bytes_alloc);
 int     set_mutex_status(pthread_mutex_t *mutex, int mode);
-int     get_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data));
+int     set_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data));
+int     protect_mutex(int mutex_return);
+int     protect_thread(int thread_return);
 
 #endif 

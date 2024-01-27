@@ -4,6 +4,8 @@ PHILO 		= 	src/parser.c 		\
 				src/philosopher.c   \
 				src/init.c			\
 				src/utils.c 		\
+				src/set.c           \
+				src/get.c			\
 				src/protect.c 		
 			
 HEADERS 	= 	headers/
