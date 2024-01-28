@@ -22,9 +22,7 @@ static void *case_one_philo(void *data)
             return (NULL);
     if (set_mutex_status(&(philos[0].philo_mutex), UNLOCK_MTX) != OK)
         return(NULL);
-	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
-	while (!simulation_finished(philo->table))
-		precise_usleep(200, philo->table);
+	
 	return (NULL);
 }
 
