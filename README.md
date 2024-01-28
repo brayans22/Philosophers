@@ -17,12 +17,13 @@ The solution requires synchronization mechanisms to prevent deadlock and starvat
    > Example: ./philo 5 600 500 400
    
 ### Info
-◼️ Language: CPP
+◼️ Language: C
 <br>
-◼️ Compile: makefile
+◼️ Compile: Makefile
 <br>
 ◼️ Concepts: Mutex, Race Condition, Thread (Hilos), Cerrojos (Locks), Deadlock (Bloqueo Mutuo), <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Locks, Concurrency, Paralelism, Process, Mutex (Mutual Exclusion).
 
 ### Diagram Image
+&nbrsp;&nbrsp;&nbrsp;&nbrsp;🚧 Working on update image 🚧
 ![IMG MODEL](https://github.com/brayans22/Philosophers/assets/90729742/6a60f67b-c04c-456f-9de4-ebd81967c598)
