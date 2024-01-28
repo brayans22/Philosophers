@@ -14,7 +14,6 @@
 */
 int protect_mutex(int mutex_return)
 {
-    /*
     if (mutex_return == EINVAL)
         return (ft_putendl_fd(MESSAGE_ERROR_MUTEX_EINVAL, 2), ERROR);
     else if (mutex_return == EPERM)
@@ -25,10 +24,6 @@ int protect_mutex(int mutex_return)
         return (ft_putendl_fd(MESSAGE_ERROR_MUTEX_ENOMEM, 2), ERROR);
     else if (mutex_return == EBUSY)
         return (ft_putendl_fd(MESSAGE_ERROR_MUTEX_EBUSY, 2), ERROR);
-    */
-    /* Pongo esta linea para que no me tire error al compilar por no usar el parametro de la funcion */
-        if (mutex_return != OK)
-        return (ERROR);
     return (OK);
 }
 
@@ -46,7 +41,6 @@ int protect_mutex(int mutex_return)
 */
 int protect_thread(int thread_return)
 {
-    /*
     if (thread_return == EAGAIN)
         return (ft_putendl_fd(MESSAGE_ERROR_THREAD_EAGAIN, 2), ERROR);
     else if (thread_return == EPERM)
@@ -56,11 +50,6 @@ int protect_thread(int thread_return)
     else if (thread_return == ESRCH)
         return (ft_putendl_fd(MESSAGE_ERROR_THREAD_ESRCH, 2), ERROR);
     else if (thread_return == EINVAL)
-        return (ft_putendl_fd(MESSAGE_ERROR_THREAD_EBUSY, 2), ERROR);
-    */
-    
-    /*  Pongo esta linea para que no me tire error al compilar por no usar el parametro de la funcion */
-        if (thread_return != OK)
-        return (ERROR);
+        return (ft_putendl_fd(MESSAGE_ERROR_THREAD_EINVAL, 2), ERROR);
     return (OK);
 }

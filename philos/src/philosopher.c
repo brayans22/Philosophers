@@ -13,10 +13,8 @@ static int wrapper_main(int argc, char **argv)
             return (ERROR);
         if (init_program(program) != OK)
             return (ERROR);
-        /*
-        if (start_simulation() != OK)
+        if (start_program(program) != OK)
             return (ERROR);
-        */
         //free_memory
         //free(program);
     }

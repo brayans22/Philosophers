@@ -6,7 +6,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <errno.h>
 # include <pthread.h>
+# include <time.h>
 # include <sys/time.h>
 # include "philosopher.h"
 # include <limits.h>
@@ -77,8 +79,10 @@ typedef struct s_philo
     long    counter_meals;
     long    last_meal_time;
     pthread_t thread_id;
+    pthread_mutex_t philo_mutex;
     t_fork *left_fork;
     t_fork *right_fork;
+    t_program *program;
 } t_philo;
 
 struct s_program
@@ -90,8 +94,11 @@ struct s_program
     long    limits_meals; 
     long    time_start;
     int     is_end;
+    int     all_threads_ready; // 
     t_philo *philos;
-    t_fork *forks;  
+    t_fork *forks;
+    pthread_mutex_t program_mutex;
+	pthread_mutex_t print_mutex; 
 };
 
 /* PROTOYPES */
@@ -104,5 +111,6 @@ int     set_mutex_status(pthread_mutex_t *mutex, int mode);
 int     set_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data));
 int     protect_mutex(int mutex_return);
 int     protect_thread(int thread_return);
+int     start_program(t_program *program);
 
 #endif 

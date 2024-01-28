@@ -31,19 +31,16 @@ static void	ft_putstr_fd(char *s, int fd)
 	s = first;
 }
 
-/*
-* PRE: No puede ser nulo s1
-* POST: Devuelve la longitud del string
-*/
-int	ft_strlen(const char *s1)
-{
-	int	i;
 
-	i = -1;
-	while (s1[i])
-		++i;
-	return (i);
+int	ft_usleep(useconds_t time)
+{
+	u_int64_t	start;
+	start = get_time();
+	while ((get_time() - start) < time)
+		usleep(time / 10);
+	return(0);
 }
+
 
 /*
 * PRE: -

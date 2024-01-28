@@ -59,6 +59,8 @@ static int init_philos(t_philo *philos, long total_philos, t_fork *forks)
         philos[i].last_meal_time = NOT_EAT_YET; 
         if (assign_fork_to_philo(&philos[i], forks, i, total_philos) != OK)
             return (free(philos), ERROR);
+        if (set_mutex_status(&(philos[i].philo_mutex), INIT_MTX) != OK)
+            return(free(forks), ERROR);
     }
     return (OK);
 }
@@ -99,10 +101,15 @@ static int wrapper_init_program(t_program *program)
         return (ERROR);
     program->time_start = 0;
     program->is_end = FALSE;
+    program->all_threads_ready = FALSE;
+    if (set_mutex_status(&program->print_mutex, INIT_MTX) != OK)
+        return (ERROR);
+    if (set_mutex_status(&program->program_mutex, INIT_MTX) != OK)
+        return (ERROR);
     if (!init_forks(program->forks, program->total_philos))
         return (FALSE);
     if (!init_philos(program->philos, program->total_philos, program->forks))
-        return (free(program->forks), ERROR);
+        return (free(program->forks), ERROR); 
     return (TRUE);
 }
 
