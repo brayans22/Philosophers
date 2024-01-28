@@ -32,15 +32,35 @@ static void	ft_putstr_fd(char *s, int fd)
 }
 
 
-int	ft_usleep(useconds_t time)
+long long	get_time_ms(void)
 {
-	u_int64_t	start;
-	start = get_time();
-	while ((get_time() - start) < time)
-		usleep(time / 10);
-	return(0);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((long long)(tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+
+int	ft_clean_program(t_program *program)
+{
+	t_philo	*philo;
+	int		i;
+
+	i = -1;
+	while (++i < program->total_philos)
+	{
+		philo = &program->philos[i];
+		if (set_mutex_status(&philo->philo_mutex, DESTROY_MTX) != OK)
+            return (ERROR);
+	}
+	if (set_mutex_status(&program->print_mutex, DESTROY_MTX) != OK)
+		return (ERROR);
+	if (set_mutex_status(&program->program_mutex, DESTROY_MTX) != OK)
+		return (ERROR);
+	free(program->forks);
+	free(program->philos);
+	return (OK);
+}
 
 /*
 * PRE: -

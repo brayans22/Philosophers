@@ -39,29 +39,36 @@
 # define MESSAGE_ERROR_MILISECONDS          "Error\nTimestamp has to be major than > 60 ms\n"
 # define MESSAGE_ERROR_MALLOC               "Error\nMalloc allocation fails\n"
 # define MESSAGE_ERROR_MEMSET               "Error\nMemset fails\n"
-# define MESSAGE_TAKEN_A_FORK               "milisegundos (ms) has taken a fork\n"
-# define MESSAGE_IS_EATING                  "milisegundos (ms) is eating\n"
-# define MESSAGE_IS_SLEEPING                "milisegundos (ms) is sleeping\n"
-# define MESSAGE_IS_THINKING                "milisegundos (ms) is thinking\n"
-# define MESSAGE_IS_DIED                    "milisegundos (ms) is died\n"
+# define MESSAGE_TAKEN_A_FORK               "has taken a fork 🍴\n"
+# define MESSAGE_IS_EATING                  "is eating 🥘\n"
+# define MESSAGE_IS_SLEEPING                "is sleeping 🛌\n"
+# define MESSAGE_IS_THINKING                "is thinking 🧠\n"
+# define MESSAGE_IS_DIED                    "is died 💀\n"
 # define MESSAGE_ERROR_INVALID_ARGUMENTS "Error Invalid Arguments!\nUsage: \
 number_of_philosophers time_to_die time_to_eat time_to_sleep \
 [number_of_times_each_philosopher_must_eat]\n\
 Example: ./philo 5 600 500 400 [5]\n"
 
-# define ERROR          -1
-# define NOT_EAT_YET   -9
-# define EMPTY          -2
-# define OK             2
-# define TRUE           1
-# define FALSE          0
-# define INIT_MTX       0
-# define LOCK_MTX       1
-# define UNLOCK_MTX     2
-# define DESTROY_MTX    3
-# define CREATE_THREAD  -3
-# define JOIN_THREAD    -2
-# define DETACH_THREAD  -1
+# define ERROR               -1
+# define NOT_EAT_YET         -9
+# define EMPTY               -2
+# define OK                  2
+# define TRUE                1
+# define FALSE               0
+# define INIT_MTX            0
+# define LOCK_MTX            1
+# define UNLOCK_MTX          2
+# define DESTROY_MTX         3
+# define CREATE_THREAD      -3
+# define JOIN_THREAD        -2
+# define DETACH_THREAD      -1
+# define TAKE_A_FORK        -10
+# define TAKE_FIRST_FORK    -15
+# define EATING             -11
+# define SLEEPING           -12
+# define THINKING           -13
+# define DIED               -14
+# define ACTIVATE_DETAILS   -22
 
 /* STRUCTS */
 typedef struct s_program t_program;
@@ -112,5 +119,6 @@ int     set_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data));
 int     protect_mutex(int mutex_return);
 int     protect_thread(int thread_return);
 int     start_program(t_program *program);
+int	    ft_clean_program(t_program *program);
 
 #endif 
