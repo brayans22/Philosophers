@@ -101,24 +101,26 @@ struct s_program
     long    limits_meals; 
     long    time_start;
     int     is_end;
-    int     all_threads_ready; // 
     t_philo *philos;
     t_fork *forks;
     pthread_mutex_t program_mutex;
 	pthread_mutex_t print_mutex; 
+    pthread_t monitor_program;
 };
 
 /* PROTOYPES */
 int	    parser_arguments_to_program(t_program *program, char **arguments);
 int     init_program(t_program *program);
 void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_fd(int nb, int fd);
+long long get_time_ms(void);
+void print_simulation(t_program *program, t_philo *philo, int routine);
 void    *get_malloc_memory(size_t bytes_alloc);
 int     set_mutex_status(pthread_mutex_t *mutex, int mode);
-int     set_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data));
+int     set_thread(pthread_t *thread, int mode, void *(*f_thread)(void *data), void *data_t);
 int     protect_mutex(int mutex_return);
 int     protect_thread(int thread_return);
 int     start_program(t_program *program);
 int	    ft_clean_program(t_program *program);
+void	*monitor_program(void *data);
 
 #endif 

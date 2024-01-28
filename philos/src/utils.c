@@ -13,45 +13,32 @@
 #include "../headers/philosopher.h"
 
 /*
-* PRE: -
-* POST: Muestra un string s en la terminal.
-*/
-static void	ft_putstr_fd(char *s, int fd)
+ * PRE: -
+ * POST: Devuelve el tiempo actual transcurrido en milisegundos.
+ */
+long long get_time_ms(void)
 {
-	char	*first;
+	struct timeval time_val;
 
-	first = s;
-	if (fd == ERROR)
-		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
-	s = first;
+	gettimeofday(&time_val, NULL);
+	return ((long long)(time_val.tv_sec * 1000) + (time_val.tv_usec / 1000));
 }
 
-
-long long	get_time_ms(void)
+/*
+ * PRE: -
+ * POST: Libera la memoria usada en el programa (threads, mutex, structs...)
+ */
+int ft_clean_program(t_program *program)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((long long)(tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-
-int	ft_clean_program(t_program *program)
-{
-	t_philo	*philo;
-	int		i;
+	t_philo *philo;
+	int i;
 
 	i = -1;
 	while (++i < program->total_philos)
 	{
 		philo = &program->philos[i];
 		if (set_mutex_status(&philo->philo_mutex, DESTROY_MTX) != OK)
-            return (ERROR);
+			return (ERROR);
 	}
 	if (set_mutex_status(&program->print_mutex, DESTROY_MTX) != OK)
 		return (ERROR);
@@ -63,48 +50,85 @@ int	ft_clean_program(t_program *program)
 }
 
 /*
-* PRE: -
-* POST: Muestra un string s en la terminal seguido de un salto de linea '\n'
-*/
-void	ft_putendl_fd(char *s, int fd)
+ * PRE: -
+ * POST: Muestra un string s en la terminal seguido de un salto de linea '\n'
+ */
+void ft_putendl_fd(char *s, int fd)
 {
-	char	*first;
+	char *first;
 
 	first = s;
-	if (fd == -1)
-		return ;
-	ft_putstr_fd(s, fd);
+	if (fd == ERROR)
+		return;
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
 	write(fd, "\n", 1);
 	s = first;
 }
 
 /*
-* PRE: -
-* POST: Muestra un numero en la terminal.
-*/
-void	ft_putnbr_fd(int nb, int fd)
+ * PRE: -
+ * POST: -
+ */
+static void select_case_to_print(t_program *program, t_philo *philo, int action, long time_passed)
 {
-	int	n;
+	if (set_mutex_status(&program->program_mutex, LOCK_MTX) != OK)
+	{
+		set_mutex_status(&program->program_mutex, UNLOCK_MTX);
+		return ;
+	}
+	if ((TAKE_FIRST_FORK == action || TAKE_A_FORK) && !program->is_end)
+		printf("%-6ld %d has taken a fork\n", time_passed, philo->id);
+	else if (EATING == action && !program->is_end)
+		printf("%-6ld %d is eating\n", time_passed, philo->id);
+	else if (SLEEPING == action && !program->is_end)
+		printf("%-6ld %d is sleeping\n", time_passed, philo->id);
+	else if (THINKING == action && !program->is_end)
+		printf("%-6ld %d is thinking\n", time_passed, philo->id);
+	else if (DIED == action)
+		printf("%-6ld %d is died\n", time_passed, philo->id);
+	set_mutex_status(&program->program_mutex, UNLOCK_MTX);
+}
 
-	if (nb == -2147483648)
+/*
+ * PRE: -
+ * POST: Mostrara por consola la routine (Sleeping, Thinking, Eating) que corresponda con el philo
+ */
+void print_simulation(t_program *program, t_philo *philo, int routine)
+{
+	long time_passed;
+
+	if (set_mutex_status(&program->program_mutex, LOCK_MTX) != OK)
 	{
-		write(fd, "-", 1);
-		write(fd, "2", 1);
-		ft_putnbr_fd(147483648, fd);
+		set_mutex_status(&program->program_mutex, UNLOCK_MTX);
+		return ;
 	}
-	else if (nb < 0)
+	time_passed = get_time_ms() - program->time_start;
+	if (set_mutex_status(&program->program_mutex, UNLOCK_MTX) != OK)
+		return ;
+	if (set_mutex_status(&philo->philo_mutex, LOCK_MTX) != OK)
 	{
-		write(fd, "-", 1);
-		ft_putnbr_fd(-nb, fd);
+		set_mutex_status(&philo->philo_mutex, UNLOCK_MTX);
+		return;
 	}
-	else if (nb > 9)
+	if (philo->is_full)
 	{
-		ft_putnbr_fd(nb / 10, fd);
-		ft_putnbr_fd(nb % 10, fd);
+		set_mutex_status(&philo->philo_mutex, UNLOCK_MTX);
+		return ;
 	}
-	else
+	if (set_mutex_status(&philo->philo_mutex, UNLOCK_MTX) != OK)
+		return;
+	if (set_mutex_status(&program->print_mutex, LOCK_MTX) != OK)
 	{
-		n = nb + '0';
-		write(fd, &n, 1);
+		set_mutex_status(&program->print_mutex, UNLOCK_MTX);
+		return ;
 	}
+	//ACCIONES QUE HAGA EL PRINT.
+	select_case_to_print(program, philo, routine, time_passed);
+
+	if (set_mutex_status(&program->print_mutex, UNLOCK_MTX) != OK)
+		return ;
 }

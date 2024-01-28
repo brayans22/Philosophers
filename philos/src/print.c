@@ -1,2 +1,0 @@
-#include "../headers/philosopher.h"
-

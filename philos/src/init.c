@@ -40,51 +40,51 @@ static int assign_fork_to_philo(t_philo *philo, t_fork *forks, int index_philo, 
 *       OK:     La asignacion del philo fue correcta.
 *       ERROR:  La asignacion del philo fue incorrecta.
 */
-static int init_philos(t_philo *philos, long total_philos, t_fork *forks)
+static int init_philos(t_philo **philos, long total_philos, t_fork *forks, t_program *program)
 {
     int i;
 
     i = -1;
-    philos = get_malloc_memory(sizeof(t_philo) * total_philos);
-    if (!philos)
+    *philos = get_malloc_memory(sizeof(t_philo) * total_philos);
+    if (!(*philos))
         return (ERROR);
     if (!forks)
-        return (free(philos), ERROR);
+        return (free(*philos), ERROR);
     while (++i < total_philos)
     {
-        philos[i].is_full = FALSE;
-        philos[i].id = i + 1;
-        philos[i].counter_meals = 0;
-        // Aun no comio, entonces lo inicializo con un valor que indique eso.
-        philos[i].last_meal_time = NOT_EAT_YET; 
-        if (assign_fork_to_philo(&philos[i], forks, i, total_philos) != OK)
-            return (free(philos), ERROR);
-        if (set_mutex_status(&(philos[i].philo_mutex), INIT_MTX) != OK)
+        (*philos)[i].is_full = FALSE;
+        (*philos)[i].id = i + 1;
+        (*philos)[i].counter_meals = 0;
+        (*philos)[i].last_meal_time = NOT_EAT_YET; 
+        if (assign_fork_to_philo(&((*philos)[i]), forks, i, total_philos) != OK)
+            return (free(*philos), ERROR);
+        if (set_mutex_status(&((*philos)[i].philo_mutex), INIT_MTX) != OK)
             return(free(forks), ERROR);
+        (*philos)[i].program = program;
     }
     return (OK);
 }
 
 /*
 * PRE: -
-* POST: Chequea la inicializacion de los forks, cargando sus campos y devolviendo el estado 
-*       de la validez del proceso, true si salio bien, false caso contrario.
-*       OK:     La asignacion del tenedor al philo fue correcta.
-*       ERROR:  La asignacion del tenedor al philo fue incorrecta.
+* POST: Chequea la inicialización de los forks, cargando sus campos y devolviendo el estado 
+*       de la validez del proceso, true si salió bien, false caso contrario.
+*       OK:     La asignación del tenedor al philo fue correcta.
+*       ERROR:  La asignación del tenedor al philo fue incorrecta.
 */
-static int init_forks(t_fork *forks, long total_philos)
+static int init_forks(t_fork **forks, long total_philos)
 {
     int i;
 
     i = -1;
-    forks = get_malloc_memory(sizeof(t_fork) * total_philos);
-    if (!forks)
+    *forks = get_malloc_memory(sizeof(t_fork) * total_philos);
+    if (!(*forks))
         return (ERROR);
     while (++i < total_philos)
     {
-        if (set_mutex_status(&(forks[i].fork_thread_mtx), INIT_MTX) != OK)
-            return(free(forks), ERROR);
-        forks[i].id = i;
+        if (set_mutex_status(&((*forks)[i].fork_thread_mtx), INIT_MTX) != OK)
+            return (free(*forks), ERROR);
+        (*forks)[i].id = i;
     }
     return (OK);
 }
@@ -101,16 +101,16 @@ static int wrapper_init_program(t_program *program)
         return (ERROR);
     program->time_start = 0;
     program->is_end = FALSE;
-    program->all_threads_ready = FALSE;
+    program->monitor_program = -1; // Lo creo cuando lleue la cena.
     if (set_mutex_status(&program->print_mutex, INIT_MTX) != OK)
         return (ERROR);
     if (set_mutex_status(&program->program_mutex, INIT_MTX) != OK)
         return (ERROR);
-    if (!init_forks(program->forks, program->total_philos))
+    if (!init_forks(&program->forks, program->total_philos))
         return (FALSE);
-    if (!init_philos(program->philos, program->total_philos, program->forks))
+    if (!init_philos(&program->philos, program->total_philos, program->forks, program))
         return (free(program->forks), ERROR); 
-    return (TRUE);
+    return (OK);
 }
 
 /*

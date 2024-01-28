@@ -6,6 +6,8 @@ PHILO 		= 	src/parser.c 		\
 				src/utils.c 		\
 				src/set.c           \
 				src/get.c			\
+				src/program.c       \
+				src/died.c			\
 				src/protect.c 		
 			
 HEADERS 	= 	headers/
@@ -15,7 +17,9 @@ SRCS 		= ${PHILO}
 OBJS 		= ${SRCS:.c=.o}
 
 CC 			= gcc
-CFLAGS 		= -Wall -Werror -Wextra -g -fsanitize=thread
+# -fsanitize=thread
+CFLAGS 		= -Wall -Werror -Wextra -g 
+
 
 %.o:%.c 	Makefile headers/philosopher.h
 			${CC} ${CFLAGS} -I ${HEADERS} -c $< -o $@

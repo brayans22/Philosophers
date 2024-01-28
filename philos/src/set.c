@@ -7,17 +7,15 @@
 *       ERROR: Si el mode es incorrecto | o si falla alguna funcion de pthread
 *       OK:    Si todo sale correctamente.
 */
-int set_thread(pthread_t *thread, int mode, void *(*f_thread)(void * data))
+int set_thread(pthread_t *thread, int mode, void *(*f_thread)(void *data), void *data_t)
 {
     int status;
 
     if (!thread)
         return (ft_putendl_fd(MESSAGE_ERROR_THREAD, 2), ERROR);
-    if (!f_thread)
-        return (free(thread), ERROR);
     status = OK;
     if (mode == CREATE_THREAD)
-        status = protect_thread(pthread_create(thread, NULL, f_thread, NULL));
+        status = protect_thread(pthread_create(thread, NULL, f_thread, data_t));
     else if (mode == JOIN_THREAD)
         status = protect_thread(pthread_join(*thread, NULL));
     else if (mode == DETACH_THREAD)
