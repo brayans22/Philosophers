@@ -14,16 +14,12 @@ static int	is_philo_died(t_philo *philo, long time_to_die_philo)
     int             died;
 
     died = FALSE;
-    if (set_mutex_status(&(philo->philo_mutex), LOCK_MTX) != OK)
-        return (ERROR);
-    if (philo->is_full)
+    if (philo->counter_meals == philo->program->limits_meals)
         return (died);
     time_passed_without_meal = (get_time_ms() - philo->last_meal_time);
-    time_to_die_miliseconds = time_to_die_philo / 1000;
+    time_to_die_miliseconds = time_to_die_philo / 1e3;
     if (time_passed_without_meal > time_to_die_miliseconds)
         died = TRUE;
-    if (set_mutex_status(&(philo->philo_mutex), UNLOCK_MTX) != OK)
-        return (ERROR);
     return (died);
 }
 
@@ -39,12 +35,11 @@ void	*monitor_program(void *data)
 
 	program = (t_program *)data;
     if (!data)
-        return (NULL);    
-    if (set_mutex_status(&(program->program_mutex), LOCK_MTX) != OK)
         return (NULL);
     while (!program->is_end)
 	{	
 		i = -1;
+        ft_usleep(2500);
 		while (!program->is_end && ++i < program->total_philos)
 		{
 			if (is_philo_died(&program->philos[i], program->time_to_die))
@@ -54,9 +49,5 @@ void	*monitor_program(void *data)
 			}
 		}
 	}
-    if (set_mutex_status(&(program->program_mutex), UNLOCK_MTX) != OK)
-    {
-        return (NULL);
-    }
 	return (NULL);
 }

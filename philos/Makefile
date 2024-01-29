@@ -5,6 +5,7 @@ PHILO 		= 	src/parser.c 		\
 				src/init.c			\
 				src/utils.c 		\
 				src/set.c           \
+				src/routine.c       \
 				src/get.c			\
 				src/program.c       \
 				src/died.c			\

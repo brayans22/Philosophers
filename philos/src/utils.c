@@ -22,7 +22,7 @@ long long get_time_ms(void)
 
 	if (gettimeofday(&time, NULL) == -1)
 		write(2, "gettimeofday() error\n", 22);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	return ((time.tv_sec * 1e3) + (time.tv_usec / 1e3));
 }
 
 /*
@@ -31,22 +31,23 @@ long long get_time_ms(void)
  */
 int ft_clean_program(t_program *program)
 {
-	t_philo *philo;
 	int i;
+	//t_philo *philo;
 
 	i = -1;
 	while (++i < program->total_philos)
-	{
-		philo = &program->philos[i];
-		if (set_mutex_status(&philo->philo_mutex, DESTROY_MTX) != OK)
-			return (ERROR);
-	}
-	if (set_mutex_status(&program->print_mutex, DESTROY_MTX) != OK)
-		return (ERROR);
-	if (set_mutex_status(&program->program_mutex, DESTROY_MTX) != OK)
-		return (ERROR);
+		set_thread(&program->philos[i].thread_id, DETACH_THREAD, NULL, NULL);
+	set_mutex_status(&program->mutex_is_end, DESTROY_MTX);
+	i = -1;
+
+	// ERROR POR RECURSO LOCKED
+	/*
+		while (++i < program->total_philos)
+		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
+	*/
 	free(program->forks);
 	free(program->philos);
+
 	return (OK);
 }
 
@@ -72,67 +73,27 @@ void ft_putendl_fd(char *s, int fd)
 
 /*
  * PRE: -
- * POST: -
+ * POST: Mostrara por consola la action (Sleeping, Thinking, Eating) que corresponda con el philo
  */
-static void select_case_to_print(t_program *program, t_philo *philo, int action, long time_passed)
-{
-	if (set_mutex_status(&program->program_mutex, LOCK_MTX) != OK)
-	{
-		set_mutex_status(&program->program_mutex, UNLOCK_MTX);
-		return ;
-	}
-	if ((TAKE_FIRST_FORK == action || TAKE_A_FORK) && !program->is_end)
-		printf("%-6ld %d has taken a fork\n", time_passed, philo->id);
-	else if (EATING == action && !program->is_end)
-		printf("%-6ld %d is eating\n", time_passed, philo->id);
-	else if (SLEEPING == action && !program->is_end)
-		printf("%-6ld %d is sleeping\n", time_passed, philo->id);
-	else if (THINKING == action && !program->is_end)
-		printf("%-6ld %d is thinking\n", time_passed, philo->id);
-	else if (DIED == action)
-		printf("%-6ld %d is died\n", time_passed, philo->id);
-	set_mutex_status(&program->program_mutex, UNLOCK_MTX);
-}
-
-/*
- * PRE: -
- * POST: Mostrara por consola la routine (Sleeping, Thinking, Eating) que corresponda con el philo
- */
-void print_simulation(t_program *program, t_philo *philo, int routine)
+void print_simulation(t_program *program, t_philo *philo, int action)
 {
 	long time_passed;
 
-	if (set_mutex_status(&program->program_mutex, LOCK_MTX) != OK)
-	{
-		set_mutex_status(&program->program_mutex, UNLOCK_MTX);
+	if (set_mutex_status(&program->mutex_is_end, LOCK_MTX) != OK)
 		return ;
-	}
+	if (set_mutex_status(&program->mutex_is_end, UNLOCK_MTX) != OK)
+		return ;
 	time_passed = get_time_ms() - program->time_start;
-	printf("TIME PASSED: %li\n", time_passed);
-	if (set_mutex_status(&program->program_mutex, UNLOCK_MTX) != OK)
-		return ;
-	if (set_mutex_status(&philo->philo_mutex, LOCK_MTX) != OK)
-	{
-		set_mutex_status(&philo->philo_mutex, UNLOCK_MTX);
-		return;
-	}
-	if (philo->is_full)
-	{
-		set_mutex_status(&philo->philo_mutex, UNLOCK_MTX);
-		return ;
-	}
-	if (set_mutex_status(&philo->philo_mutex, UNLOCK_MTX) != OK)
-		return;
-	if (set_mutex_status(&program->print_mutex, LOCK_MTX) != OK)
-	{
-		set_mutex_status(&program->print_mutex, UNLOCK_MTX);
-		return ;
-	}
-	//ACCIONES QUE HAGA EL PRINT.
-	select_case_to_print(program, philo, routine, time_passed);
-
-	if (set_mutex_status(&program->print_mutex, UNLOCK_MTX) != OK)
-		return ;
+	if (TAKE_A_FORK == action)
+		printf("%-3ld %d has taken a fork 🥄\n", time_passed, philo->id);
+	else if (EATING == action)
+		printf("%-3ld %d is eating 🍲\n", time_passed, philo->id);
+	else if (SLEEPING == action)
+		printf("%-3ld %d is sleeping 🛌\n", time_passed, philo->id);
+	else if (THINKING == action)
+		printf("%-3ld %d is thinking 🧠\n", time_passed, philo->id);
+	else if (DIED == action)
+		printf("%-3ld %d is died 💀\n", time_passed, philo->id);
 }
 
 int	ft_usleep(size_t milliseconds)
@@ -140,7 +101,7 @@ int	ft_usleep(size_t milliseconds)
 	size_t	start;
 
 	start = get_time_ms();
-	while ((( (size_t)get_time_ms() - start) < milliseconds))
+	while ((((size_t)get_time_ms() - start) < milliseconds))
 		usleep(500);
 	return (0);
 }

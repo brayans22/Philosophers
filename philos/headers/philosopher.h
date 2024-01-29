@@ -71,7 +71,6 @@ Example: ./philo 5 600 500 400 [5]\n"
 # define ACTIVATE_DETAILS   -22
 
 /* STRUCTS */
-typedef struct s_program t_program;
 
 typedef struct s_fork
 {
@@ -79,33 +78,32 @@ typedef struct s_fork
     int id;
 } t_fork;
 
-typedef struct s_philo
-{
-    int     id;
-    int     is_full;
-    long    counter_meals;
-    long    last_meal_time;
-    pthread_t thread_id;
-    pthread_mutex_t philo_mutex;
-    t_fork *left_fork;
-    t_fork *right_fork;
-    t_program *program;
-} t_philo;
+typedef struct s_philo t_philo;
 
-struct s_program
+typedef struct s_program
 {
-    long    total_philos;
+    int     total_philos;
     long    time_to_die;
     long    time_to_eat;
     long    time_to_sleep;
-    long    limits_meals; 
+    long    limits_meals; //must_eat
+    int     count_philos_full;
     long    time_start;
-    int     is_end;
     t_philo *philos;
-    t_fork *forks;
-    pthread_mutex_t program_mutex;
-	pthread_mutex_t print_mutex; 
-    pthread_t monitor_program;
+    t_fork  *forks;
+    int is_end;
+    pthread_mutex_t mutex_is_end;
+}t_program;
+
+struct s_philo
+{
+    int id;
+    int counter_meals;
+    int last_meal_time;
+    pthread_t thread_id;
+    t_fork *left_fork;
+    t_fork *right_fork;
+    t_program *program;
 };
 
 /* PROTOYPES */
@@ -123,5 +121,6 @@ int     start_program(t_program *program);
 int	    ft_clean_program(t_program *program);
 void	*monitor_program(void *data);
 int	ft_usleep(size_t milliseconds);
+void *philo_routine(void *data);
 
 #endif 

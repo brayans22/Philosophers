@@ -1,12 +1,4 @@
 #include "../headers/philosopher.h"
-/*
-
-long    last_meal_time;
-    pthread_t thread_id;
-    t_fork *left_fork;
-    t_fork *right_fork;
-    t_program *program;
-*/
 
 /*
 * PRE: -
@@ -52,14 +44,11 @@ static int init_philos(t_philo **philos, long total_philos, t_fork *forks, t_pro
         return (free(*philos), ERROR);
     while (++i < total_philos)
     {
-        (*philos)[i].is_full = FALSE;
         (*philos)[i].id = i + 1;
         (*philos)[i].counter_meals = 0;
         (*philos)[i].last_meal_time = NOT_EAT_YET; 
         if (assign_fork_to_philo(&((*philos)[i]), forks, i, total_philos) != OK)
             return (free(*philos), ERROR);
-        if (set_mutex_status(&((*philos)[i].philo_mutex), INIT_MTX) != OK)
-            return(free(forks), ERROR);
         (*philos)[i].program = program;
     }
     return (OK);
@@ -99,17 +88,15 @@ static int wrapper_init_program(t_program *program)
 {
     if (!program)
         return (ERROR);
-    program->time_start = 0;
     program->is_end = FALSE;
-    program->monitor_program = -1; // Lo creo cuando lleue la cena.
-    if (set_mutex_status(&program->print_mutex, INIT_MTX) != OK)
-        return (ERROR);
-    if (set_mutex_status(&program->program_mutex, INIT_MTX) != OK)
-        return (ERROR);
+    program->count_philos_full = 0;
+    if (set_mutex_status(&program->mutex_is_end, INIT_MTX) != OK)
+        return (FALSE);
     if (!init_forks(&program->forks, program->total_philos))
         return (FALSE);
     if (!init_philos(&program->philos, program->total_philos, program->forks, program))
-        return (free(program->forks), ERROR); 
+        return (free(program->forks), ERROR);
+    program->time_start = get_time_ms();
     return (OK);
 }
 

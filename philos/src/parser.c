@@ -92,14 +92,14 @@ static int wrapper_parser_arguments_to_program(char **arguments, t_program *prog
 {
 	if (!is_valid_argument(arguments[1], 0) || !is_valid_argument(arguments[2], 1) \
 	    || !is_valid_argument(arguments[3], 1) || !is_valid_argument(arguments[4], 1) \
-		|| (arguments[5] && !is_valid_argument(arguments[5], 1)))
+		|| (arguments[5] && !is_valid_argument(arguments[5], 0)))
 		return (ERROR);
 	program->total_philos = ft_atol(arguments[1]);
     program->time_to_die = ft_atol(arguments[2]) * 1e3;
     program->time_to_eat = ft_atol(arguments[3]) * 1e3;
     program->time_to_sleep = ft_atol(arguments[4]) * 1e3;
     if (arguments[5])
-        program->limits_meals = ft_atol(arguments[5]) * 1e3;
+        program->limits_meals = ft_atol(arguments[5]);
 	else
 		program->limits_meals = EMPTY;
 	return (OK);
