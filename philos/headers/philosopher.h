@@ -122,5 +122,6 @@ int     protect_thread(int thread_return);
 int     start_program(t_program *program);
 int	    ft_clean_program(t_program *program);
 void	*monitor_program(void *data);
+int	ft_usleep(size_t milliseconds);
 
 #endif 

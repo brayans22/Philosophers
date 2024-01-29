@@ -6,7 +6,6 @@ static void *case_one_philo(void *data)
     int         total_threads_running;         
 
     program = (t_program *)data;
-    printf("LLEGUE HASTA AQUI");
     if (!program)
         return (NULL);
     if (set_mutex_status(&(program->philos[0].philo_mutex), LOCK_MTX) != OK)
@@ -24,7 +23,7 @@ static void *case_one_philo(void *data)
     print_simulation(program, &program->philos[0], TAKE_A_FORK);
     
 	while (!program->is_end)
-        usleep(200);
+        ft_usleep(200);
         //ft_usleep(200);
 		//precise_usleep(200, program);
 	return (NULL);
@@ -71,13 +70,14 @@ int start_program(t_program *program)
         if (set_thread(&(program->philos[i].thread_id), JOIN_THREAD, NULL, NULL) != OK)
             return(ERROR);
     }
+    /*
     if (set_mutex_status(&(program->program_mutex), LOCK_MTX) != OK)
         return(set_mutex_status(&(program->program_mutex), UNLOCK_MTX), ERROR);
+    */
     program->is_end = TRUE;
     if (set_mutex_status(&(program->program_mutex), UNLOCK_MTX) != OK)
         return(ERROR);
-
-    if (set_thread(&program->monitor_program, JOIN_THREAD, NULL, NULL) != OK)
-        return(ERROR);
+    //if (set_thread(&program->monitor_program, JOIN_THREAD, NULL, NULL) != OK)
+    //    return(ERROR);
     return (OK);
 }

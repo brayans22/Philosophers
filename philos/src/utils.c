@@ -18,10 +18,11 @@
  */
 long long get_time_ms(void)
 {
-	struct timeval time_val;
+	struct timeval	time;
 
-	gettimeofday(&time_val, NULL);
-	return ((long long)(time_val.tv_sec * 1000) + (time_val.tv_usec / 1000));
+	if (gettimeofday(&time, NULL) == -1)
+		write(2, "gettimeofday() error\n", 22);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 /*
@@ -107,6 +108,7 @@ void print_simulation(t_program *program, t_philo *philo, int routine)
 		return ;
 	}
 	time_passed = get_time_ms() - program->time_start;
+	printf("TIME PASSED: %li\n", time_passed);
 	if (set_mutex_status(&program->program_mutex, UNLOCK_MTX) != OK)
 		return ;
 	if (set_mutex_status(&philo->philo_mutex, LOCK_MTX) != OK)
@@ -131,4 +133,14 @@ void print_simulation(t_program *program, t_philo *philo, int routine)
 
 	if (set_mutex_status(&program->print_mutex, UNLOCK_MTX) != OK)
 		return ;
+}
+
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_time_ms();
+	while ((( (size_t)get_time_ms() - start) < milliseconds))
+		usleep(500);
+	return (0);
 }
