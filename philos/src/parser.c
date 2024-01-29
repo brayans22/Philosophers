@@ -75,9 +75,7 @@ static int is_valid_argument(char *nb, int flag_ms_limit)
 	if (tmp < MIN_INT || tmp > MAX_INT || (ft_strlen_nb(nb) > 10 && nb[0] != '-') \
 			|| (ft_strlen_nb(nb) > 11 && nb[0] == '-'))
 		return (ft_putendl_fd(MESSAGE_ERROR_OUT_OF_INT_LIMIT, 2), FALSE);
-	// multiplicar por 1e3 numero para tener el tiempo en ms.
-	// 6e4: 60 milisegundos
-	if (tmp * 1e3 < 6e4 && flag_ms_limit)
+	if (tmp < 60 && flag_ms_limit)
 		return (ft_putendl_fd(MESSAGE_ERROR_MILISECONDS, 2), FALSE);
 	return (TRUE);
 }
@@ -95,9 +93,9 @@ static int wrapper_parser_arguments_to_program(char **arguments, t_program *prog
 		|| (arguments[5] && !is_valid_argument(arguments[5], 0)))
 		return (ERROR);
 	program->total_philos = ft_atol(arguments[1]);
-    program->time_to_die = ft_atol(arguments[2]) * 1e3;
-    program->time_to_eat = ft_atol(arguments[3]) * 1e3;
-    program->time_to_sleep = ft_atol(arguments[4]) * 1e3;
+    program->time_to_die = ft_atol(arguments[2]);
+    program->time_to_eat = ft_atol(arguments[3]);
+    program->time_to_sleep = ft_atol(arguments[4]);
     if (arguments[5])
         program->limits_meals = ft_atol(arguments[5]);
 	else

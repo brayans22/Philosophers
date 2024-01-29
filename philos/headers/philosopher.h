@@ -39,11 +39,6 @@
 # define MESSAGE_ERROR_MILISECONDS          "Error\nTimestamp has to be major than > 60 ms\n"
 # define MESSAGE_ERROR_MALLOC               "Error\nMalloc allocation fails\n"
 # define MESSAGE_ERROR_MEMSET               "Error\nMemset fails\n"
-# define MESSAGE_TAKEN_A_FORK               "has taken a fork 🍴\n"
-# define MESSAGE_IS_EATING                  "is eating 🥘\n"
-# define MESSAGE_IS_SLEEPING                "is sleeping 🛌\n"
-# define MESSAGE_IS_THINKING                "is thinking 🧠\n"
-# define MESSAGE_IS_DIED                    "is died 💀\n"
 # define MESSAGE_ERROR_INVALID_ARGUMENTS "Error Invalid Arguments!\nUsage: \
 number_of_philosophers time_to_die time_to_eat time_to_sleep \
 [number_of_times_each_philosopher_must_eat]\n\
@@ -71,7 +66,6 @@ Example: ./philo 5 600 500 400 [5]\n"
 # define ACTIVATE_DETAILS   -22
 
 /* STRUCTS */
-
 typedef struct s_fork
 {
     pthread_mutex_t fork_thread_mtx;
@@ -86,13 +80,12 @@ typedef struct s_program
     long    time_to_die;
     long    time_to_eat;
     long    time_to_sleep;
-    long    limits_meals; //must_eat
+    long    limits_meals;
     int     count_philos_full;
     long    time_start;
     t_philo *philos;
     t_fork  *forks;
     int is_end;
-    pthread_mutex_t mutex_is_end;
 }t_program;
 
 struct s_philo

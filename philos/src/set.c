@@ -49,6 +49,5 @@ int set_mutex_status(pthread_mutex_t *mutex, int mode)
         status = protect_mutex(pthread_mutex_destroy(mutex));
     else
         return (ft_putendl_fd(MESSAGE_ERROR_INVALID_MODE_MUTEX, 2), ERROR);
-    
     return (status);
 }

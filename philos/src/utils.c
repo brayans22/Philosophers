@@ -22,7 +22,7 @@ long long get_time_ms(void)
 
 	if (gettimeofday(&time, NULL) == -1)
 		write(2, "gettimeofday() error\n", 22);
-	return ((time.tv_sec * 1e3) + (time.tv_usec / 1e3));
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 /*
@@ -32,22 +32,17 @@ long long get_time_ms(void)
 int ft_clean_program(t_program *program)
 {
 	int i;
-	//t_philo *philo;
+
+	i = -1;
+	while (++i < program->total_philos)
+		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
 
 	i = -1;
 	while (++i < program->total_philos)
 		set_thread(&program->philos[i].thread_id, DETACH_THREAD, NULL, NULL);
-	set_mutex_status(&program->mutex_is_end, DESTROY_MTX);
-	i = -1;
-
-	// ERROR POR RECURSO LOCKED
-	/*
-		while (++i < program->total_philos)
-		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
-	*/
+	
 	free(program->forks);
 	free(program->philos);
-
 	return (OK);
 }
 
@@ -79,10 +74,6 @@ void print_simulation(t_program *program, t_philo *philo, int action)
 {
 	long time_passed;
 
-	if (set_mutex_status(&program->mutex_is_end, LOCK_MTX) != OK)
-		return ;
-	if (set_mutex_status(&program->mutex_is_end, UNLOCK_MTX) != OK)
-		return ;
 	time_passed = get_time_ms() - program->time_start;
 	if (TAKE_A_FORK == action)
 		printf("%-3ld %d has taken a fork 🥄\n", time_passed, philo->id);
@@ -96,6 +87,10 @@ void print_simulation(t_program *program, t_philo *philo, int action)
 		printf("%-3ld %d is died 💀\n", time_passed, philo->id);
 }
 
+/*
+ * PRE: -
+ * POST: Duerme el programa miliseconds
+ */
 int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;

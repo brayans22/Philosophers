@@ -17,7 +17,7 @@ static int	is_philo_died(t_philo *philo, long time_to_die_philo)
     if (philo->counter_meals == philo->program->limits_meals)
         return (died);
     time_passed_without_meal = (get_time_ms() - philo->last_meal_time);
-    time_to_die_miliseconds = time_to_die_philo / 1e3;
+    time_to_die_miliseconds = time_to_die_philo;
     if (time_passed_without_meal > time_to_die_miliseconds)
         died = TRUE;
     return (died);

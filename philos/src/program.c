@@ -15,9 +15,10 @@ int start_program(t_program *program)
         {
             if (set_thread(&(program->philos[i].thread_id), CREATE_THREAD, philo_routine, &program->philos[i]) != OK)
                 return (ERROR);
-            ft_usleep(200);
+            ft_usleep(500);
+            monitor_program(program);
         }
     }
-    monitor_program(program);
+    
     return (OK);
 }

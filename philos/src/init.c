@@ -89,9 +89,7 @@ static int wrapper_init_program(t_program *program)
     if (!program)
         return (ERROR);
     program->is_end = FALSE;
-    program->count_philos_full = 0;
-    if (set_mutex_status(&program->mutex_is_end, INIT_MTX) != OK)
-        return (FALSE);
+    program->count_philos_full = 0;  
     if (!init_forks(&program->forks, program->total_philos))
         return (FALSE);
     if (!init_philos(&program->philos, program->total_philos, program->forks, program))
