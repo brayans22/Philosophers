@@ -16,12 +16,13 @@ void	*monitor_program(void *data)
 	program = (t_program *)data;
     end = FALSE;
     
-    while (!end)
+    set_mutex_status(&program->end_mutex, LOCK_MTX);
+    while (!end && program->count_philos_full < program->total_philos)
 	{
         printf("END: %i\n", end);
 		i = -1;
         ft_usleep(2500);
-        set_mutex_status(&program->end_mutex, LOCK_MTX);
+        
 		while (!program->is_end && ++i < program->total_philos && !end)
 		{
 			if (program->philos[i].counter_meals == program->limits_meals)
@@ -34,12 +35,13 @@ void	*monitor_program(void *data)
                     printf("ENTRE: %i\n", end);
                     end = TRUE;
                     print_simulation(program, &program->philos[i], DIED);
-                    //program->is_end = TRUE;
+                    program->is_end = TRUE;
                 }
             }
 		}
+        //end = 1;
         printf("END: %i\n", end);
-        set_mutex_status(&program->end_mutex, UNLOCK_MTX);
 	}
+    set_mutex_status(&program->end_mutex, UNLOCK_MTX);
     return (NULL);
 }

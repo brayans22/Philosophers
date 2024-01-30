@@ -34,8 +34,6 @@ int ft_clean_program(t_program *program)
 	int i;
 
 	i = -1;
-	set_mutex_status(&program->end_mutex, UNLOCK_MTX);
-	set_mutex_status(&program->print_mutex, UNLOCK_MTX);
 	while (++i < program->total_philos)
     {
         if (set_thread(&(program->philos[i].thread_id), JOIN_THREAD, NULL, NULL) != OK)
@@ -43,10 +41,7 @@ int ft_clean_program(t_program *program)
     }
 	i = -1;
 	while (++i < program->total_philos)
-	{
-		set_mutex_status(&program->forks[i].fork_thread_mtx, UNLOCK_MTX);
 		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
-	}
 	set_mutex_status(&program->end_mutex, DESTROY_MTX);
 	set_mutex_status(&program->print_mutex, DESTROY_MTX);
 	free(program->forks);
@@ -85,15 +80,16 @@ void print_simulation(t_program *program, t_philo *philo, int action)
         return ;
 	time_passed = get_time_ms() - program->time_start;
 	if (TAKE_A_FORK == action)
-		printf("%-3ld %d has taken a fork 🥄\n", time_passed, philo->id);
+		printf("⏳ %-3ld ms | 👴🏻 %d | Action: has taken a fork 🥄\n", time_passed, philo->id);
 	else if (EATING == action)
-		printf("%-3ld %d is eating 🍲\n", time_passed, philo->id);
+		printf("⏳ %-3ld ms | 👴🏻 %d | Action: is eating 🍲\n", time_passed, philo->id);
 	else if (SLEEPING == action)
-		printf("%-3ld %d is sleeping 🛌\n", time_passed, philo->id);
+		printf("⏳ %-3ld ms | 👴🏻 %d | Action: is sleeping 🛌\n", time_passed, philo->id);
 	else if (THINKING == action)
-		printf("%-3ld %d is thinking 🧠\n", time_passed, philo->id);
+		printf("⏳ %-3ld ms | 👴🏻 %d | Action: is thinking 🧠\n", time_passed, philo->id);
 	else if (DIED == action)
-		printf("%-3ld %d is died 💀\n", time_passed, philo->id);
+		printf("⏳ %-3ld ms | 👴🏻 %d | Action: is died 💀\n", time_passed, philo->id);
+	printf("______________________________________________________________________________________________________\n");
 	set_mutex_status(&program->print_mutex, UNLOCK_MTX);
 }
 
