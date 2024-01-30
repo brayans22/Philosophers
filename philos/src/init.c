@@ -89,12 +89,15 @@ static int wrapper_init_program(t_program *program)
     if (!program)
         return (ERROR);
     program->is_end = FALSE;
-    program->count_philos_full = 0;  
-    if (!init_forks(&program->forks, program->total_philos))
-        return (FALSE);
-    if (!init_philos(&program->philos, program->total_philos, program->forks, program))
+    program->count_philos_full = 0;
+    if (set_mutex_status(&program->program_mutex, INIT_MTX) != OK)
+        return (ERROR);
+    if (set_mutex_status(&program->print_mutex, INIT_MTX) != OK)
+        return (set_mutex_status(&program->program_mutex, DESTROY_MTX), ERROR);
+    if (init_forks(&program->forks, program->total_philos) != OK)
+        return (ERROR);
+    if (init_philos(&program->philos, program->total_philos, program->forks, program) != OK)
         return (free(program->forks), ERROR);
-    program->time_start = get_time_ms();
     return (OK);
 }
 

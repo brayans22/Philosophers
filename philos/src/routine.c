@@ -24,8 +24,7 @@ static void	eat_routine(t_philo *philo)
     if (set_mutex_status(&philo->left_fork->fork_thread_mtx, UNLOCK_MTX) != OK)
         return ;
     if (set_mutex_status(&philo->right_fork->fork_thread_mtx, UNLOCK_MTX) != OK)
-        return 
-;  
+        return ;  
 }
 
 void *philo_routine(void *data)
@@ -37,6 +36,7 @@ void *philo_routine(void *data)
         return (NULL);
     while (TRUE)
     {
+        set_mutex_status(&philo->philo_mutex, LOCK_MTX);
         eat_routine(philo);
         print_simulation(philo->program, philo, SLEEPING);
         ft_usleep(philo->program->time_to_sleep);

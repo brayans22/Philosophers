@@ -20,6 +20,8 @@ static int	is_philo_died(t_philo *philo, long time_to_die_philo)
     time_to_die_miliseconds = time_to_die_philo;
     if (time_passed_without_meal > time_to_die_miliseconds)
         died = TRUE;
+    if (set_mutex_status(&philo->philo_mutex, UNLOCK_MTX) != OK)
+        return (FALSE);
     return (died);
 }
 
@@ -34,7 +36,7 @@ void	*monitor_program(void *data)
 	t_program		*program;
 
 	program = (t_program *)data;
-    if (!data)
+    if (set_mutex_status(&program->program_mutex, LOCK_MTX) != OK)
         return (NULL);
     while (!program->is_end)
 	{	
@@ -42,12 +44,16 @@ void	*monitor_program(void *data)
         ft_usleep(2500);
 		while (!program->is_end && ++i < program->total_philos)
 		{
+            if (set_mutex_status(&program->philos[i].philo_mutex, LOCK_MTX) != OK)
+                return (NULL);
 			if (is_philo_died(&program->philos[i], program->time_to_die))
 			{
                 program->is_end = TRUE;
 				print_simulation(program, &program->philos[i], DIED);
 			}
+            if (set_mutex_status(&program->philos[i].philo_mutex, UNLOCK_MTX) != OK)
+                return (NULL);
 		}
 	}
-	return (NULL);
+    return (set_mutex_status(&program->program_mutex, UNLOCK_MTX), NULL);
 }

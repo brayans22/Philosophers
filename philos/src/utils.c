@@ -73,7 +73,8 @@ void ft_putendl_fd(char *s, int fd)
 void print_simulation(t_program *program, t_philo *philo, int action)
 {
 	long time_passed;
-
+	if (set_mutex_status(&program->print_mutex, LOCK_MTX) != OK)
+        return ;
 	time_passed = get_time_ms() - program->time_start;
 	if (TAKE_A_FORK == action)
 		printf("%-3ld %d has taken a fork 🥄\n", time_passed, philo->id);
@@ -85,6 +86,7 @@ void print_simulation(t_program *program, t_philo *philo, int action)
 		printf("%-3ld %d is thinking 🧠\n", time_passed, philo->id);
 	else if (DIED == action)
 		printf("%-3ld %d is died 💀\n", time_passed, philo->id);
+	set_mutex_status(&program->print_mutex, UNLOCK_MTX);
 }
 
 /*

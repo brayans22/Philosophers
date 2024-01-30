@@ -82,10 +82,13 @@ typedef struct s_program
     long    time_to_sleep;
     long    limits_meals;
     int     count_philos_full;
+    int is_end;
     long    time_start;
     t_philo *philos;
     t_fork  *forks;
-    int is_end;
+    pthread_t monitor_thread;
+    pthread_mutex_t program_mutex;
+    pthread_mutex_t print_mutex;
 }t_program;
 
 struct s_philo
@@ -97,6 +100,7 @@ struct s_philo
     t_fork *left_fork;
     t_fork *right_fork;
     t_program *program;
+    pthread_mutex_t philo_mutex;
 };
 
 /* PROTOYPES */
