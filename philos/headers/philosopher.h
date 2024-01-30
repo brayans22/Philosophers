@@ -87,7 +87,7 @@ typedef struct s_program
     t_philo *philos;
     t_fork  *forks;
     pthread_t monitor_thread;
-    pthread_mutex_t program_mutex;
+    pthread_mutex_t end_mutex;
     pthread_mutex_t print_mutex;
 }t_program;
 
@@ -100,7 +100,6 @@ struct s_philo
     t_fork *left_fork;
     t_fork *right_fork;
     t_program *program;
-    pthread_mutex_t philo_mutex;
 };
 
 /* PROTOYPES */

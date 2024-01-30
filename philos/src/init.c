@@ -90,10 +90,10 @@ static int wrapper_init_program(t_program *program)
         return (ERROR);
     program->is_end = FALSE;
     program->count_philos_full = 0;
-    if (set_mutex_status(&program->program_mutex, INIT_MTX) != OK)
+    if (set_mutex_status(&program->end_mutex, INIT_MTX) != OK)
         return (ERROR);
     if (set_mutex_status(&program->print_mutex, INIT_MTX) != OK)
-        return (set_mutex_status(&program->program_mutex, DESTROY_MTX), ERROR);
+        return (set_mutex_status(&program->end_mutex, DESTROY_MTX), ERROR);
     if (init_forks(&program->forks, program->total_philos) != OK)
         return (ERROR);
     if (init_philos(&program->philos, program->total_philos, program->forks, program) != OK)

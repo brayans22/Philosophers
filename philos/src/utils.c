@@ -34,13 +34,21 @@ int ft_clean_program(t_program *program)
 	int i;
 
 	i = -1;
+	set_mutex_status(&program->end_mutex, UNLOCK_MTX);
+	set_mutex_status(&program->print_mutex, UNLOCK_MTX);
 	while (++i < program->total_philos)
-		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
-
+    {
+        if (set_thread(&(program->philos[i].thread_id), JOIN_THREAD, NULL, NULL) != OK)
+            return (ERROR);
+    }
 	i = -1;
 	while (++i < program->total_philos)
-		set_thread(&program->philos[i].thread_id, DETACH_THREAD, NULL, NULL);
-	
+	{
+		set_mutex_status(&program->forks[i].fork_thread_mtx, UNLOCK_MTX);
+		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
+	}
+	set_mutex_status(&program->end_mutex, DESTROY_MTX);
+	set_mutex_status(&program->print_mutex, DESTROY_MTX);
 	free(program->forks);
 	free(program->philos);
 	return (OK);
