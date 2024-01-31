@@ -9,6 +9,7 @@ PHILO 		= 	src/parser.c 		\
 				src/get.c			\
 				src/program.c       \
 				src/died.c			\
+				src/philosophers_wrapper.c \
 				src/protect.c 		
 			
 HEADERS 	= 	headers/

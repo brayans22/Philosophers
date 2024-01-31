@@ -11,7 +11,6 @@ static int assign_fork_to_philo(t_philo *philo, t_fork *forks, int index_philo, 
 {
     if (!philo || !forks)
         return (ERROR);
-    // is odd
     if (philo->id % 2 == 1)
     {
         philo->right_fork = &forks[index_philo];

@@ -1,5 +1,9 @@
 #include "../headers/philosopher.h"
 
+/*
+ * Pre: -
+ * Post: Inicia el programa (La cena de los philosophos).
+*/
 int start_program(t_program *program)
 {
     int i;

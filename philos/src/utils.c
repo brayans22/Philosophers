@@ -33,12 +33,15 @@ int ft_clean_program(t_program *program)
 {
 	int i;
 
-	i = -1;
-	while (++i < program->total_philos)
-    {
-        if (set_thread(&(program->philos[i].thread_id), JOIN_THREAD, NULL, NULL) != OK)
-            return (ERROR);
-    }
+	if (program->total_philos > 1)
+	{
+		i = -1;
+		while (++i < program->total_philos)
+    	{
+        	if (set_thread(&(program->philos[i].thread_id), JOIN_THREAD, NULL, NULL) != OK)
+            	return (ERROR);
+    	}
+	}
 	i = -1;
 	while (++i < program->total_philos)
 		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);

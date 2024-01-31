@@ -86,7 +86,6 @@ typedef struct s_program
     long    time_start;
     t_philo *philos;
     t_fork  *forks;
-    pthread_t monitor_thread;
     pthread_mutex_t end_mutex;
     pthread_mutex_t print_mutex;
 }t_program;
@@ -118,5 +117,6 @@ int	    ft_clean_program(t_program *program);
 void	*monitor_program(void *data);
 int	ft_usleep(size_t milliseconds);
 void *philo_routine(void *data);
+int wrapper_philosophers(int argc, char **argv);
 
 #endif 

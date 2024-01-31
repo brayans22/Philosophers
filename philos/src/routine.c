@@ -1,5 +1,11 @@
 #include "../headers/philosopher.h"
 
+/*
+ * Pre: -
+ * Post: Verifica si el philosopher esta lleno o no, sumandolo al contador de
+ *       Philosophers llenos, ademas chequea si la cantidad total de philos
+ *       llenos es la misma que la cantidad total de philos.
+*/
 static void check_stop_eat_philo(t_philo *philo)
 {
     set_mutex_status(&philo->program->end_mutex, LOCK_MTX);
@@ -17,6 +23,10 @@ static void check_stop_eat_philo(t_philo *philo)
     set_mutex_status(&philo->program->end_mutex, UNLOCK_MTX);
 }
 
+/*
+ * Pre: -
+ * Post: Ejectura la rutina de comida de un philo.
+*/
 static void	eat_routine(t_philo *philo)
 {
     if (set_mutex_status(&philo->right_fork->fork_thread_mtx, LOCK_MTX) != OK)
@@ -32,6 +42,11 @@ static void	eat_routine(t_philo *philo)
     check_stop_eat_philo(philo);
 }
 
+/*
+ * Pre: -
+ * Post: Realiza la rutina de un philosopher.
+ *      
+*/
 void *philo_routine(void *data)
 {
     t_philo *philo;
@@ -43,7 +58,7 @@ void *philo_routine(void *data)
     while (1)
     {
         set_mutex_status(&philo->program->end_mutex, LOCK_MTX);
-		if (philo->program->is_end == TRUE \
+		if (philo->program->is_end \
         || philo->program->count_philos_full == philo->program->limits_meals)
 		{
 			pthread_mutex_unlock(&philo->program->end_mutex);
