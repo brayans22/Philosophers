@@ -25,9 +25,10 @@ void	*monitor_program(void *data)
         
 		while (!program->is_end && ++i < program->total_philos && !end)
 		{
+            printf("ENTRE PERO NO A LA MUERTE: %i\n", end);
 			if (program->philos[i].counter_meals == program->limits_meals)
             {
-                
+                printf("ENTRE PERO NO A LA MUERTE: %i\n", end);
                 time_passed_without_meal = (get_time_ms() - program->philos[i].last_meal_time);
                 time_to_die_miliseconds = program->time_to_die;
                 if (time_passed_without_meal >= time_to_die_miliseconds)
@@ -37,9 +38,10 @@ void	*monitor_program(void *data)
                     print_simulation(program, &program->philos[i], DIED);
                     program->is_end = TRUE;
                 }
+                end = 1;
             }
 		}
-        //end = 1;
+        end = 1;
         printf("END: %i\n", end);
 	}
     set_mutex_status(&program->end_mutex, UNLOCK_MTX);

@@ -111,7 +111,7 @@ static int wrapper_parser_arguments_to_program(char **arguments, t_program *prog
 */
 int	parser_arguments_to_program(t_program *program, char **arguments)
 {
-    if (!*arguments || !arguments)
+    if (!*arguments || !arguments || !program)
 		return (ERROR);
 	return (wrapper_parser_arguments_to_program(arguments, program));
 }

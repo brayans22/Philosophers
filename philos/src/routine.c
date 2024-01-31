@@ -43,7 +43,8 @@ void *philo_routine(void *data)
     while (1)
     {
         set_mutex_status(&philo->program->end_mutex, LOCK_MTX);
-		if (philo->program->is_end == 1)
+		if (philo->program->is_end == TRUE \
+        || philo->program->count_philos_full == philo->program->limits_meals)
 		{
 			pthread_mutex_unlock(&philo->program->end_mutex);
 			break ;

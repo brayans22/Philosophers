@@ -13,8 +13,23 @@ static int wrapper_main(int argc, char **argv)
             return (ERROR);
         if (init_program(program) != OK)
             return (ERROR);
-        if (start_program(program) != OK)
-            return (ERROR);
+        if (program->total_philos == 1)
+        {
+            program->time_start = get_time_ms();
+	        print_simulation(program, &program->philos[0], TAKE_A_FORK);
+            print_simulation(program, &program->philos[0], TAKE_A_FORK);
+            ft_usleep(program->time_to_eat);
+            ft_usleep(program->time_to_sleep);
+            print_simulation(program, &program->philos[0], SLEEPING);
+            print_simulation(program, &program->philos[0], THINKING);
+	        ft_usleep(program->time_to_die);
+	        print_simulation(program, &program->philos[0], DIED);
+        }
+        else
+        {
+            if(start_program(program) != OK)
+                return (ERROR);
+        }
         if(ft_clean_program(program) != OK)
             return (ERROR);
         return (0);
