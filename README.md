@@ -17,9 +17,9 @@ The solution requires synchronization mechanisms to prevent deadlock and starvat
    > Example: ./philo 5 600 500 400
    
 ### Info
-◼️ Language: CPP
+◼️ Language: C
 <br>
-◼️ Compile: makefile
+◼️ Compile: Makefile
 <br>
 ◼️ Concepts: Mutex, Race Condition, Thread (Hilos), Cerrojos (Locks), Deadlock (Bloqueo Mutuo), <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Locks, Concurrency, Paralelism, Process, Mutex (Mutual Exclusion).
