@@ -1,6 +1,5 @@
 # ➡︎ PHILOSOPHERS ⬅︎
-
-![UML](https://github.com/brayans22/Philosophers/assets/90729742/1447a4ba-8f44-4c55-b1ff-05ebeb353ca2)
+![UML](https://github.com/brayans22/Philosophers/assets/90729742/b1ecd55a-0ed0-4064-8441-4f4123bec5a8)
 
 ### 1. Summary
 The dining philosophers problem is a classic computer science scenario illustrating concurrency challenges. It involves five philosophers sitting around a table, alternating between thinking and eating. Each philosopher needs two adjacent forks to eat, and the problem arises when they attempt to pick up forks simultaneously, risking deadlock.
