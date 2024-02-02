@@ -37,8 +37,8 @@ struct T_Philo
     + right_fork : T_Fork
 }
 
-T_Program "         1  " <|-- "   1..* " T_Philo
-T_Program " 1   " <|---" 1..*   " T_Fork
+T_Program "         1  " --|> "   1..* " T_Philo
+T_Program " 1   " ---|> " 1..*   " T_Fork
 
 note right of T_Program::total_philos
 total de philos y tenedores que hay en el programa (MESA)
