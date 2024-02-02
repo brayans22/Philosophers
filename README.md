@@ -7,11 +7,11 @@ The dining philosophers problem is a classic computer science scenario illustrat
 The solution requires synchronization mechanisms to prevent deadlock and starvation. Whether implemented with independent processes or threads within a single process, techniques like semaphores, monitors, or mutex are used for proper mutual exclusion and synchronization. The goal is to ensure philosophers share forks safely and efficiently.
 
 ### 2. Usage
-2.1) Compile the code & Execute
+2.1) Compile the code
    ```makefile
    make
    ```
-2.2) Compile the programa & execute:
+2.2) Execute:
    ```bash
    ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep (number_of_times_each_philosopher_must_eat)
    ```
