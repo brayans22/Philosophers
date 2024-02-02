@@ -25,7 +25,3 @@ The solution requires synchronization mechanisms to prevent deadlock and starvat
 <br>
 ◼️ Concepts: Mutex, Race Condition, Thread (Hilos), Cerrojos (Locks), Deadlock (Bloqueo Mutuo), <br>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Locks, Concurrency, Paralelism, Process, Mutex (Mutual Exclusion).
-
-### 4. Diagram Image
-![UML](https://github.com/brayans22/Philosophers/assets/90729742/1447a4ba-8f44-4c55-b1ff-05ebeb353ca2)
-
