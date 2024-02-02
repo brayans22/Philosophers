@@ -1,5 +1,7 @@
 # ➡︎ PHILOSOPHERS ⬅︎
 
+![UML](https://github.com/brayans22/Philosophers/assets/90729742/1447a4ba-8f44-4c55-b1ff-05ebeb353ca2)
+
 ### 1. Summary
 The dining philosophers problem is a classic computer science scenario illustrating concurrency challenges. It involves five philosophers sitting around a table, alternating between thinking and eating. Each philosopher needs two adjacent forks to eat, and the problem arises when they attempt to pick up forks simultaneously, risking deadlock.
 
@@ -25,5 +27,5 @@ The solution requires synchronization mechanisms to prevent deadlock and starvat
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Locks, Concurrency, Paralelism, Process, Mutex (Mutual Exclusion).
 
 ### 4. Diagram Image
-🚧 Working on update image 🚧
-![IMG MODEL](https://github.com/brayans22/Philosophers/assets/90729742/6a60f67b-c04c-456f-9de4-ebd81967c598)
+![UML](https://github.com/brayans22/Philosophers/assets/90729742/1447a4ba-8f44-4c55-b1ff-05ebeb353ca2)
+
