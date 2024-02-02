@@ -77,8 +77,7 @@ void *philo_routine(void *data)
 
 /*
  * Pre: -
- * Post: Verifica si el programa se acabo, es decir, si
- *       Un philo se muere, o todos estan llenos.
+ * Post: Verifica si el programa se acabo.
 */
 void	*monitor_program(void *data)
 {
