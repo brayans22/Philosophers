@@ -56,6 +56,8 @@ static int init_philos(t_philo **philos, long total_philos, t_fork *forks, t_pro
             return (ERROR);
         (*philos)[i].program = program;
         (*philos)[i].is_full = FALSE;
+        (*philos)[i].is_eating = FALSE;
+        set_mutex_status(&((*philos)[i].philo_mtx), INIT_MTX);
     }
     return (OK);
 }

@@ -21,19 +21,9 @@
 # define MIN_INT                        -2147483648
 
 # define MESSAGE_ERROR_MUTEX                "Error\nMutex throw exception\n"
+# define MESSAGE_ERROR_THREAD               "Error\nThread throw exception\n"
 # define MESSAGE_ERROR_INVALID_MODE_MUTEX   "Error\nInvalid mode mutex\n"
 # define MESSAGE_MORE_THAN_ZERO             "Error\nArgument has to be more than zero\n"
-# define MESSAGE_ERROR_MUTEX_EINVAL         "Error\nMutex throw exception (The value specified by attr is invalid.)\n"
-# define MESSAGE_ERROR_MUTEX_EPERM          "Error\nMutex throw exception (The current thread does not hold a lock on mutex.)\n"
-# define MESSAGE_ERROR_MUTEX_ENOMEM         "Error\nMutex throw exception (The process cannot allocate enough memory to create another mutex)\n"
-# define MESSAGE_ERROR_MUTEX_EDEADLK        "Error\nMutex throw exception (A deadlock would ocurr if the thread blocked waiting for mutex.)\n"
-# define MESSAGE_ERROR_MUTEX_EBUSY          "Error\nMutex throw exception (Mutex is locked)\n"
-# define MESSAGE_ERROR_THREAD               "Error\nThread throw exception\n"
-# define MESSAGE_ERROR_THREAD_EAGAIN        "Error\nThread throw exception (The system lacked the necessary resources to create another thread)\n"
-# define MESSAGE_ERROR_THREAD_EPERM         "Error\nThread throw exception (The caller does not have appropiate permission)\n"
-# define MESSAGE_ERROR_THREAD_ESRCH         "Error\nThread throw exception (No thread with the ID thread could be found.)\n"
-# define MESSAGE_ERROR_THREAD_EDEADLK       "Error\nThread throw exception (A deadlock was detected)\n"
-# define MESSAGE_ERROR_THREAD_EINVAL         "Error\nThread throw exception (The value specified by attr is invalid.)\n"
 # define MESSAGE_ERROR_INVALID_MODE_THREAD   "Error\nInvalid mode thread\n"
 # define MESSAGE_ERROR_NOT_NUMERIC_ARGUMENT "Error\nArguments has to be positive numbers!\n"
 # define MESSAGE_ERROR_OUT_OF_INT_LIMIT     "Error\nArguments has to respect the int limits\n"
@@ -95,10 +85,12 @@ typedef struct s_program
 struct s_philo
 {
     int id;
+    int is_eating;
     int is_full;
     int counter_meals;
     long last_meal_time;
     pthread_t thread_id;
+    pthread_mutex_t philo_mtx;
     t_fork *left_fork;
     t_fork *right_fork;
     t_program *program;
@@ -113,31 +105,24 @@ int     init_program(t_program *program);
 /* UTILS.C */
 void	ft_putendl_fd(char *s, int fd);
 long get_time_ms();
-void print_simulation(t_program *program, t_philo *philo, int routine);
-void	ft_usleep(long int time_in_ms);
+void print_simulation(t_program *program, t_philo *philo, int routine, long time_passed);
+void	ft_usleep(long long time);
 
 /* SET.C */
 int     set_mutex_status(pthread_mutex_t *mutex, int mode);
 int     set_thread(pthread_t *thread, int mode, void *(*f_thread)(void *data), void *data_t);
+void    set_total_philos_full(t_program *program);
+void    set_is_end(t_program *program);
 
 /* GET.C */
 int get_is_end(t_program *program);
 int get_total_philos_full(t_program *program);
 void    *get_malloc_memory(size_t bytes_alloc);
 
-/* PROTECT.C */
-int     protect_mutex(int mutex_return);
-int     protect_thread(int thread_return);
-
-/* GET.C */
+/* PROGRAM.C */
 int     start_program(t_program *program);
+
+/* FREE.C */
 int	    free_program(t_program *program);
-void	*monitor_program(void *data);
-void *philo_routine(void *data);
-int wrapper_philosophers(int argc, char **argv);
-void    set_total_philos_full(t_program *program);
-void    set_is_end(t_program *program);
-
-
 
 #endif 

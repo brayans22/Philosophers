@@ -15,11 +15,11 @@ int set_thread(pthread_t *thread, int mode, void *(*f_thread)(void *data), void 
         return (ft_putendl_fd(MESSAGE_ERROR_THREAD, 2), ERROR);
     status = OK;
     if (mode == CREATE_THREAD)
-        status = protect_thread(pthread_create(thread, NULL, f_thread, data_t));
+        pthread_create(thread, NULL, f_thread, data_t);
     else if (mode == JOIN_THREAD)
-        status = protect_thread(pthread_join(*thread, NULL));
+        pthread_join(*thread, NULL);
     else if (mode == DETACH_THREAD)
-        status = protect_thread(pthread_detach(*thread));
+        pthread_detach(*thread);
     else
         return (ft_putendl_fd(MESSAGE_ERROR_INVALID_MODE_THREAD, 2), ERROR);
     return (status);
@@ -34,22 +34,19 @@ int set_thread(pthread_t *thread, int mode, void *(*f_thread)(void *data), void 
 */
 int set_mutex_status(pthread_mutex_t *mutex, int mode)
 {
-    int status;
-
     if (!mutex)
         return (ft_putendl_fd(MESSAGE_ERROR_MUTEX, 2), ERROR);
-    status = OK;
     if (mode == LOCK_MTX)
-        status = protect_mutex(pthread_mutex_lock(mutex));
+        pthread_mutex_lock(mutex);
     else if (mode == UNLOCK_MTX)
-        status = protect_mutex(pthread_mutex_unlock(mutex));
+        pthread_mutex_unlock(mutex);
     else if (mode == INIT_MTX)
-        status = protect_mutex(pthread_mutex_init(mutex, NULL));
+        pthread_mutex_init(mutex, NULL);
     else if (mode == DESTROY_MTX)
-        status = protect_mutex(pthread_mutex_destroy(mutex));
+        pthread_mutex_destroy(mutex);
     else
         return (ft_putendl_fd(MESSAGE_ERROR_INVALID_MODE_MUTEX, 2), ERROR);
-    return (status);
+    return (OK);
 }
 
 /*
