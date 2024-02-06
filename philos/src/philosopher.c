@@ -21,8 +21,8 @@ static int wrapper_philosophers(int argc, char **argv)
     t_program *program;
     int exit;
 
-    program = get_malloc_memory(sizeof(t_program));
     exit = 1;
+    program = get_malloc_memory(sizeof(t_program));
     if (!program)
         return (exit);
     if ((argc == 5 || argc == 6))
@@ -42,7 +42,7 @@ static int wrapper_philosophers(int argc, char **argv)
             return (exit);
         return (!exit);
     }
-    return (ft_putendl_fd(MESSAGE_ERROR_INVALID_ARGUMENTS, 2), exit);
+    return (free(program), ft_putendl_fd(MESSAGE_ERROR_INVALID_ARGUMENTS, 2), exit);
 }
 
 int main(int argc, char **argv)

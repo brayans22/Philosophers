@@ -17,7 +17,7 @@ OBJS 		= ${SRCS:.c=.o}
 
 CC 			= gcc
 
-CFLAGS 		= -Wall -Werror -Wextra -g -fsanitize=thread
+CFLAGS 		= -Wall -Werror -Wextra -g -fsanitize=address #-fsanitize=thread 
 
 %.o:%.c 	Makefile headers/philosopher.h
 			${CC} ${CFLAGS} -I ${HEADERS} -c $< -o $@

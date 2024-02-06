@@ -77,7 +77,7 @@ static void *philo_routine(void *data)
             break ;
         if (get_total_philos_full(philo->program) >= philo->program->total_philos)
             break ;
-        if (!philo->is_full )
+        if (!philo->is_full)
 	    {
 		    print_simulation(philo->program, philo, THINKING, get_time_ms() - \
             philo->program->time_start);
@@ -138,6 +138,7 @@ int start_program(t_program *program)
         if (set_thread(&(program->philos[i].thread_id), CREATE_THREAD \
             ,philo_routine, &program->philos[i]) != OK)
             return (ERROR);
+        ft_usleep(2);
     }
     set_thread(&program->thread_monitor, CREATE_THREAD, monitor_program, program);
     i = -1;

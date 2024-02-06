@@ -10,7 +10,10 @@ int free_program(t_program *program)
 
 	i = -1;
 	while (++i < program->total_philos)
+	{
 		set_mutex_status(&program->forks[i].fork_thread_mtx, DESTROY_MTX);
+		set_mutex_status(&program->philos[i].philo_mtx, DESTROY_MTX);
+	}
 	set_mutex_status(&program->end_mutex, DESTROY_MTX);
 	set_mutex_status(&program->get_time_mutex, DESTROY_MTX);
 	set_mutex_status(&program->print_mutex, DESTROY_MTX);

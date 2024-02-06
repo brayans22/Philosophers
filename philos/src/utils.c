@@ -52,7 +52,6 @@ void ft_putendl_fd(char *s, int fd)
 void print_simulation(t_program *program, t_philo *philo, int action, long time_passed)
 {
 	set_mutex_status(&program->print_mutex, LOCK_MTX);
-	//printf("PHILO ID: %i\n", philo->id);
 	if (!get_is_end(program))
 		printf("________________________________________________________________________________\n");
 	if (TAKE_A_FORK == action && !get_is_end(program))
