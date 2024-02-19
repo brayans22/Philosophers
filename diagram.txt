@@ -1,6 +1,5 @@
 @startuml
-
-note "IMPORTANT CONCEPTS\n___\n1) MUTEX\n2) RACE CONDITION \n3) LOCK (Cerrojo)\n4) CONCURRENCIA\n5) PARALELISMO\n6) RECURSOS COMPARTIDOS \n7) THREAD (Hilo)\n8) PROCESO (PID)" as r
+note "IMPORTANT CONCEPTS\n___\n1) MUTEX\n2) RACE CONDITION \n3) LOCK (Cerrojo)\n4) CONCURRENCIA\n5) PARALELISMO\n6) RECURSOS COMPARTIDOS \n7) THREAD (Hilo)\n8) PROCESO (PID) \n9)DEADLOCK" as r
 
 struct T_Program
 {
@@ -17,13 +16,11 @@ struct T_Program
     +print_mutex: pthread_mutex_t
     +end_mutex : pthread_mutex_t
     +count_philos_mutex : pthread_mutex_t
-    +get_time_mutex : pthread_mutex_t
 }
 
 struct T_Fork
 {
     + fork_thread : pthread_mutex_t
-    + id : int
 }
 
 struct T_Philo
@@ -33,11 +30,12 @@ struct T_Philo
     + last_meal_time : long
     + is_full : int
     + thread_id : pthread_t
+    + philo_mtx : pthread_mutex_t
     + left_fork : T_Fork
     + right_fork : T_Fork
 }
 
-T_Program "         1  " --|> "   1..* " T_Philo
+T_Program "         1  " ---|> "   1..* " T_Philo
 T_Program " 1   " ---|> " 1..*   " T_Fork
 
 note right of T_Program::total_philos
@@ -89,8 +87,8 @@ note left of T_Program::count_philos_mutex
 Mutex para evitar RaceCondition en el count philos mutex
 end note
 
-note left of T_Program::get_time_mutex
-Mutex para evitar RaceCondition a la hora de obtener el time.
+note left of T_Philo::philo_mtx
+Evita el racecondition entre el philo y el monitor.
 end note
 
 note right of T_Philo::id
@@ -129,5 +127,4 @@ note right of T_Fork::fork_thread
 se utiliza para manejar la sincronización y la exclusión mutua al acceder a recursos compartidos,
 de esta forma evitamos el race condition (2 philos no accedan al mismo tenedor | recurso) [Mutual Exclusion]
 end note
-
 @enduml
