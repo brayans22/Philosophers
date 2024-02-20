@@ -134,5 +134,6 @@ int	start_program(t_program *program)
 	i = -1;
 	while (++i < program->total_philos)
 		set_thread(&program->philos[i].thread_id, JOIN_THREAD, NULL, NULL);
+	set_thread(&program->thread_monitor, JOIN_THREAD, NULL, NULL);
 	return (OK);
 }
